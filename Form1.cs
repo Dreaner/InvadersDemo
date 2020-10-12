@@ -1,12 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
 using System.Windows.Forms;
-using System.Threading;
 
 namespace 入侵者
 {
@@ -117,22 +114,22 @@ namespace 入侵者
         private int invaderWidth = 70;//怪物左右间隔
 
         private int invaderShotsCount = 1;//怪物允许最大发射子弹量
-        public int InvaderShotsCount{get{return invaderShotsCount;}}
+        public int InvaderShotsCount { get { return invaderShotsCount; } }
 
         private int invaderHeight = 50;//怪物上下间隔
         private Point startPoint;//怪物群起始位置
 
         private Rectangle boundaries;//游戏边界
-        private Random random=new Random ();
+        private Random random = new Random();
         private bool deadFlag;
         private bool gameOver = false;
 
-        private Direction invaderDirection=Direction.Right;//怪物方向
+        private Direction invaderDirection = Direction.Right;//怪物方向
         private List<Invader> invaders;//怪物
 
-        private PlayerShip playerShip=null;//玩家
-        private List<Shot> playerShots=new List<Shot> ();//玩家发射的子弹
-        private List<Shot> invaderShots=new List<Shot> ();//怪物的子弹
+        private PlayerShip playerShip = null;//玩家
+        private List<Shot> playerShots = new List<Shot> ();//玩家发射的子弹
+        private List<Shot> invaderShots = new List<Shot> ();//怪物的子弹
 
         private Stars stars;
 
@@ -141,10 +138,10 @@ namespace 入侵者
         public Game(Invaders form)
         {
             this.form = form;
-            Size size = new Size(form.ClientSize.Width-100,form.ClientSize.Height);
-            boundaries = new Rectangle(new Point(50,0), size);       
-            startPoint = new Point(boundaries.X+10,boundaries.Y+40);
-            stars = new Stars(form,random);               
+            Size size = new Size(form.ClientSize.Width - 100,form.ClientSize.Height);
+            boundaries = new Rectangle(new Point(50, 0), size);       
+            startPoint = new Point(boundaries.X + 10, boundaries.Y + 40);
+            stars = new Stars(form, random);               
         }
 
         public bool NewLevel()
@@ -181,19 +178,19 @@ namespace 入侵者
             //右上角画出战舰剩余
             for (int i = livesLeft; i > 0; i--)
             {
-                Point point = new Point(form.ClientSize.Width - i * playerShip.Area.Width-i*2, 5);
-                playerShip.Draw(g,point);
+                Point point = new Point(form.ClientSize.Width - i * playerShip.Area.Width - i * 2, 5);
+                playerShip.Draw(g, point);
             }
 
             //左上角显示分数,中间显示关书
             using (Font arial20 = new Font("Arial", 20, FontStyle.Bold))
             {
                 g.DrawString(score.ToString(), arial20, Brushes.Yellow, 0, 5);
-                g.DrawString("关卡" + (wave).ToString(), arial20, Brushes.Yellow, form.ClientSize.Width / 2 - 15, 5);
+                g.DrawString("Game Level " + (wave).ToString(), arial20, Brushes.Green, form.ClientSize.Width / 2 - 15, 5);
             }
 
-            if(playerShip!=null)
-            playerShip.Draw(g);
+            if (playerShip != null)
+                playerShip.Draw(g);
             foreach (Invader invader in invaders)
                 invader.Draw(g,animationCell);
             foreach (Shot shot in playerShots)
@@ -207,13 +204,13 @@ namespace 入侵者
                 using (Font aria64 = new Font("Arial", 64, FontStyle.Bold))
                 {
                     Size fontSize = Size.Ceiling(g.MeasureString("Game Over!", aria64));
-                    g.DrawString("Game Over!", aria64, Brushes.Yellow, form.ClientSize.Width / 2 - fontSize.Width / 2, form.ClientSize.Height / 2 - fontSize.Height);
+                    g.DrawString("Game Over!", aria64, Brushes.Red, form.ClientSize.Width / 2 - fontSize.Width / 2, form.ClientSize.Height / 2 - fontSize.Height);
                 }
 
                 using (Font arial20 = new Font("Arial", 20, FontStyle.Bold))
                 {
-                    Size fontSize = Size.Ceiling(g.MeasureString("S重新开始游戏，Q退出游戏", arial20));
-                    g.DrawString("S重新开始游戏，Q退出游戏", arial20, Brushes.Yellow, form.ClientSize.Width-fontSize.Width-15, form.ClientSize.Height-fontSize.Height-5);
+                    Size fontSize = Size.Ceiling(g.MeasureString("S to restart，Q to quit", arial20));
+                    g.DrawString("S to restart，Q to quit", arial20, Brushes.Yellow, form.ClientSize.Width-fontSize.Width-15, form.ClientSize.Height-fontSize.Height-5);
                 }
             }
             
@@ -236,8 +233,8 @@ namespace 入侵者
                 }
                 else
                 {
-                    gameOver = true;                   
-                }               
+                    gameOver = true;
+                }
             }
 
             else
@@ -363,7 +360,7 @@ namespace 入侵者
         }
 
         /// <summary>
-        /// 玩家移动
+        /// 玩家飞船移动
         /// </summary>
         /// <param name="direction"></param>
         public void MovePlayer(Direction direction)
@@ -394,7 +391,7 @@ namespace 入侵者
         }
 
         private Bitmap image;
-        private Bitmap[] images;
+        private Bitmap [] images;
 
         private Point location;
         public Point Location { get{return location;}  }
@@ -417,7 +414,7 @@ namespace 入侵者
 
         public void Draw(Graphics g, int aimationCell)
         { 
-            g.DrawImage(InvaderImage(aimationCell),location.X,location.Y);
+            g.DrawImage(InvaderImage(aimationCell),location.X, location.Y);
         }
 
         private void InitialBitmap(Type invaderType)
@@ -426,34 +423,34 @@ namespace 入侵者
            switch (invaderType)
            {
                case Type.Bug:
-                   images[0]=ResizeImage(Properties.Resources.bug1,ImageWidth,ImageHeight);
-                   images[1]=ResizeImage(Properties.Resources.bug2,ImageWidth,ImageHeight);
-                   images[2]=ResizeImage(Properties.Resources.bug3,ImageWidth,ImageHeight);
-                   images[3]=ResizeImage(Properties.Resources.bug4,ImageWidth,ImageHeight);
+                   images[0] = ResizeImage(Properties.Resources.bug1, ImageWidth, ImageHeight);
+                   images[1] = ResizeImage(Properties.Resources.bug2, ImageWidth, ImageHeight);
+                   images[2] = ResizeImage(Properties.Resources.bug3, ImageWidth, ImageHeight);
+                   images[3] = ResizeImage(Properties.Resources.bug4, ImageWidth, ImageHeight);
                    break;
                case Type.Satellite:
-                   images[0]=ResizeImage(Properties.Resources.satellite1,ImageWidth,ImageHeight);
-                   images[1]=ResizeImage(Properties.Resources.satellite2,ImageWidth,ImageHeight);
-                   images[2]=ResizeImage(Properties.Resources.satellite3,ImageWidth,ImageHeight);
-                   images[3]=ResizeImage(Properties.Resources.satellite4,ImageWidth,ImageHeight);
+                   images[0] = ResizeImage(Properties.Resources.satellite1, ImageWidth, ImageHeight);
+                   images[1] = ResizeImage(Properties.Resources.satellite2, ImageWidth, ImageHeight);
+                   images[2] = ResizeImage(Properties.Resources.satellite3, ImageWidth, ImageHeight);
+                   images[3] = ResizeImage(Properties.Resources.satellite4, ImageWidth, ImageHeight);
                    break;
                case Type.Watchit:
-                    images[0]=ResizeImage(Properties.Resources.watchit1,ImageWidth,ImageHeight);
-                    images[1]=ResizeImage(Properties.Resources.watchit2,ImageWidth,ImageHeight);
-                    images[2]=ResizeImage(Properties.Resources.watchit3,ImageWidth,ImageHeight);
-                    images[3]=ResizeImage(Properties.Resources.watchit4,ImageWidth,ImageHeight);
+                   images[0] = ResizeImage(Properties.Resources.watchit1, ImageWidth, ImageHeight);
+                   images[1] = ResizeImage(Properties.Resources.watchit2, ImageWidth, ImageHeight);
+                   images[2] = ResizeImage(Properties.Resources.watchit3, ImageWidth, ImageHeight);
+                   images[3] = ResizeImage(Properties.Resources.watchit4, ImageWidth, ImageHeight);
                    break;
                case Type.Spaceship:
-                   images[0]=ResizeImage(Properties.Resources.spaceship1,ImageWidth,ImageHeight);
-                   images[1]=ResizeImage(Properties.Resources.spaceship2,ImageWidth,ImageHeight);
-                   images[2]=ResizeImage(Properties.Resources.spaceship3,ImageWidth,ImageHeight);
-                   images[3]=ResizeImage(Properties.Resources.spaceship4,ImageWidth,ImageHeight);
+                   images[0] = ResizeImage(Properties.Resources.spaceship1, ImageWidth, ImageHeight);
+                   images[1] = ResizeImage(Properties.Resources.spaceship2, ImageWidth, ImageHeight);
+                   images[2] = ResizeImage(Properties.Resources.spaceship3, ImageWidth, ImageHeight);
+                   images[3] = ResizeImage(Properties.Resources.spaceship4, ImageWidth, ImageHeight);
                    break;
                case Type.Star:
-                   images[0]=ResizeImage(Properties.Resources.star1,ImageWidth,ImageHeight);
-                   images[1]=ResizeImage(Properties.Resources.star2,ImageWidth,ImageHeight);
-                   images[2]=ResizeImage(Properties.Resources.star3,ImageWidth,ImageHeight);
-                   images[3]=ResizeImage(Properties.Resources.star4,ImageWidth,ImageHeight);
+                   images[0] = ResizeImage(Properties.Resources.star1, ImageWidth, ImageHeight);
+                   images[1] = ResizeImage(Properties.Resources.star2, ImageWidth, ImageHeight);
+                   images[2] = ResizeImage(Properties.Resources.star3, ImageWidth, ImageHeight);
+                   images[3] = ResizeImage(Properties.Resources.star4, ImageWidth, ImageHeight);
                    break;
                default:
                    break;
@@ -555,11 +552,11 @@ namespace 入侵者
             switch (direction)
             { 
                 case Direction.Left:
-                    if(location.X>boundaries.X-Area.Width/2)
+                    if(location.X>boundaries.X-Area.Width / 2)
                     location.X -= moveSpeed;
                     break;
                 case Direction.Right:
-                    if(location.X<boundaries.X+boundaries.Width-Area.Width/2)
+                    if(location.X<boundaries.X + boundaries.Width - Area.Width / 2)
                     location.X += moveSpeed;
                     break;
                 default:
@@ -569,7 +566,7 @@ namespace 入侵者
 
         public Shot playerShot()
         {
-            return new Shot(new Point(location.X+Area.Width/2,Area.Y),Direction.Up,boundaries);
+            return new Shot(new Point(location.X + Area.Width / 2, Area.Y), Direction.Up, boundaries);
         }
     }
 
@@ -594,7 +591,7 @@ namespace 入侵者
 
         public void Draw(Graphics g)
         {
-            g.FillRectangle(Brushes.Yellow,Location.X,Location.Y,width,height);
+            g.FillRectangle(Brushes.Yellow, Location.X, Location.Y, width, height);
         }
 
         public bool Move()
@@ -619,7 +616,7 @@ namespace 入侵者
     public class Stars
     {
         List<Star> stars=new List<Star> ();
-        Pen pen=null;
+        Pen pen = null;
         Point point;
         Random random;
         Invaders form;
@@ -640,10 +637,10 @@ namespace 入侵者
         {
             this.form = form;
             this.random = random;
-            AddStars(form,random,300);
+            AddStars(form, random, 300);
         }
 
-        public void AddStars(Invaders form, Random random,int number)
+        public void AddStars(Invaders form, Random random, int number)
         {
             for (int i = 0; i < number; i++)
             {
@@ -676,7 +673,7 @@ namespace 入侵者
         {
             foreach (Star star in stars)
             {
-                g.DrawEllipse(star.pen,star.point.X,star.point.Y,1,1);
+                g.DrawEllipse(star.pen, star.point.X, star.point.Y, 1, 1);
             }
         }
 
@@ -686,7 +683,7 @@ namespace 入侵者
             {
                 stars.RemoveAt(i);
             }
-            AddStars(form,random,10);
+            AddStars(form, random, 10);
         }
     }
 }
